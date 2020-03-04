@@ -1,15 +1,11 @@
 package com.dal.tourism;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,9 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.core.UserWriteRecord;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -37,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText password1;
     EditText password2;
     Button btn_signup;
+    TextView txt_login;
 
 
     @Override
@@ -53,8 +49,16 @@ public class SignupActivity extends AppCompatActivity {
         mobile_number = findViewById(R.id.input_mobile);
         password1 = findViewById(R.id.input_password);
         password2 = findViewById(R.id.input_reEnterPassword);
+        txt_login = findViewById(R.id.txt_login);
 
         btn_signup = findViewById(R.id.btn_signup);
+
+        txt_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            }
+        });
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +81,11 @@ public class SignupActivity extends AppCompatActivity {
                     if (!(email_str.isEmpty() || password_str.isEmpty())){
 
                         mAuth.createUserWithEmailAndPassword(email_str, password_str).
-                                addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                                addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this.getApplicationContext(),
+                                    Toast.makeText(SignUpActivity.this.getApplicationContext(),
                                             "SignUp unsuccessful: " + task.getException().getMessage(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
@@ -93,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
                                     mDatabase.child("tourism-cloud5409").child(userId).setValue(user);
 
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
+                                    firebaseUser.sendEmailVerification();
 
 
 
@@ -113,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                     Toast user_created = Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_LONG);
                                     user_created.show();
-                                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                                 }
                             }
                         });

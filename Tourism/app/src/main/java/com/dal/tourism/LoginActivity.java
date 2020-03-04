@@ -19,6 +19,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         txt_createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
 
@@ -72,11 +78,11 @@ public class LoginActivity extends AppCompatActivity {
                                         // Check if user's email is verified
                                         boolean emailVerified = user.isEmailVerified();
 
-                                        // The user's ID, unique to the Firebase project. Do NOT use this value to
-                                        // authenticate with your backend server, if you have one. Use
-                                        // FirebaseUser.getIdToken() instead.
-                                        String uid = user.getUid();
+
                                         System.out.println(name + email + String.valueOf(photoUrl) + String.valueOf(emailVerified));
+
+                                        startActivity(new Intent(LoginActivity.this, AuthenticationActivity.class));
+
                                     }
 
                                 }
@@ -89,4 +95,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }
