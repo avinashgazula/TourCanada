@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText mobile_number;
     EditText password1;
     EditText password2;
-    Button btn_signup;
+    Button btn_signUp;
     TextView txt_login;
 
 
@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         password2 = findViewById(R.id.input_reEnterPassword);
         txt_login = findViewById(R.id.txt_login);
 
-        btn_signup = findViewById(R.id.btn_signup);
+        btn_signUp = findViewById(R.id.btn_signup);
 
         txt_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        btn_signup.setOnClickListener(new View.OnClickListener() {
+        btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (password1.getText().toString().equals(password2.getText().toString())){
