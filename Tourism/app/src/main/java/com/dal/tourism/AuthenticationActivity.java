@@ -36,8 +36,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     Button btn_submitCode;
     EditText input_code;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +51,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         String email = user.getEmail();
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = database.child("tourism-cloud5409");
+        DatabaseReference ref = database.child(getString(R.string.database_name));
 
         Query phoneQuery = ref.orderByChild("email").equalTo(email);
         phoneQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,6 +93,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
 
                             startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+                            finish();
 
                         }else{
                             System.out.println("Verification Failed"+ task.getException().toString());

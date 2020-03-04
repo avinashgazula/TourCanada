@@ -14,17 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dal.tourism.AuthenticationActivity;
+import com.dal.tourism.MainActivity;
+import com.dal.tourism.R;
+import com.dal.tourism.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText input_email;
     EditText input_password;
     TextView txt_createAccount;
+    TextView txt_forgotPassword;
     Button btn_login;
-
 
 
     @Override
@@ -47,17 +45,41 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             // User is signed in
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         }
 
         input_email = findViewById(R.id.input_email);
         input_password = findViewById(R.id.input_password);
         txt_createAccount = findViewById(R.id.txt_createAccount);
+        txt_forgotPassword = findViewById(R.id.txt_forgotPassword);
         btn_login = findViewById(R.id.btn_login);
 
         txt_createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
+
+        txt_forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input_email.getText().toString().isEmpty()){
+                    input_email.setError("Enter email");
+                    input_email.requestFocus();
+                }else{
+                    mAuth.sendPasswordResetEmail(input_email.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        System.out.println("Email sent.");
+                                        Toast email_sent = Toast.makeText(getApplicationContext(), "Password reset email sent", Toast.LENGTH_LONG);
+                                        email_sent.show();
+                                    }
+                                }
+                            });
+                }
             }
         });
 
@@ -87,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                         System.out.println(name + email + String.valueOf(photoUrl) + String.valueOf(emailVerified));
 
                                         startActivity(new Intent(LoginActivity.this, AuthenticationActivity.class));
-
+                                        finish();
                                     }
 
                                 }

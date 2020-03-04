@@ -23,7 +23,7 @@
                 android:id="@+id/txt_verificationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Verification code"
+                android:text="@string/enter_verification_code"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:hint="Code" />
+                    android:hint="@string/code" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -55,7 +55,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:padding="8dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/colorPrimary" />
 
 
