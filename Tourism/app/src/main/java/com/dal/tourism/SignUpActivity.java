@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView txt_login;
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

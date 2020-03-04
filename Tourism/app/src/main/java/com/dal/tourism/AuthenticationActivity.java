@@ -36,6 +36,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     Button btn_submitCode;
     EditText input_code;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
