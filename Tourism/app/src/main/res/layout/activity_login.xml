@@ -3,46 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         tools:context=".activities.LoginActivity">
 
-        <RelativeLayout
-            android:id="@+id/layout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp">
 
-            <TextView
-                android:id="@+id/one_sec_txt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:padding="10dp"
-                android:text="Tourism"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/layout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout1"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:layout_marginTop="40dp">
 
             <TextView
                 android:id="@+id/welcome_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log Into Your Account"
+                android:text="Login"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"
@@ -55,8 +36,10 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp">
-                <com.google.android.material.textfield.TextInputEditText android:id="@+id/input_email"
+                android:layout_marginRight="25dp"
+                app:boxBackgroundColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorPrimary">
+                <EditText android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
@@ -66,14 +49,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_password"
-                android:layout_below="@+id/layout_email"
+                android:layout_below="@id/layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp">
-                <com.google.android.material.textfield.TextInputEditText android:id="@+id/input_password"
+                android:layout_marginRight="25dp"
+                app:boxBackgroundColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorPrimary">
+                <EditText android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -83,8 +68,8 @@
 
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_login"
+            <Button
+                android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_below="@+id/layout_password"
@@ -96,10 +81,10 @@
 
 
             <TextView
-                android:id="@+id/no_acct_txt"
+                android:id="@+id/txt_createAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/button_login"
+                android:layout_below="@+id/btn_login"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
                 android:text="No account yet? Create one!"
