@@ -59,6 +59,11 @@ public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapte
         return mLocations.size();
     }
 
+    public void filterList(ArrayList<String> fLocations) {
+        mLocations = fLocations;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView txt_locationName;

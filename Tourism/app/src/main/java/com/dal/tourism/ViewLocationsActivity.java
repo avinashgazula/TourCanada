@@ -1,13 +1,22 @@
 package com.dal.tourism;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,11 +28,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ViewLocationsActivity extends AppCompatActivity {
+public class ViewLocationsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private static final String TAG = "ViewLocationsActivity";
 
     private ArrayList<String>  mLocations = new ArrayList<>();
+
+    RecyclerView recyclerView;
+    LocationViewAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +51,19 @@ public class ViewLocationsActivity extends AppCompatActivity {
 
         getLocations();
         initRecyclerView();
+    }
+
+    private void filter(String text) {
+
+        ArrayList<String> fLocations = new ArrayList<>();
+
+        for (int i=0; i<mLocations.size(); i++){
+            if (mLocations.get(i).toLowerCase().contains(text.toLowerCase())){
+                fLocations.add(mLocations.get(i));
+            }
+        }
+
+        adapter.filterList(fLocations);
     }
 
     public void getLocations(){
@@ -70,9 +95,54 @@ public class ViewLocationsActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        LocationViewAdapter adapter = new LocationViewAdapter(mLocations, this);
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new LocationViewAdapter(mLocations, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search Locations");
+        searchView.setOnQueryTextListener(this);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setFocusable(false);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_sign_out){
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // user is now signed out
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            finish();
+                        }
+                    });
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        filter(s);
+        return true;
     }
 }

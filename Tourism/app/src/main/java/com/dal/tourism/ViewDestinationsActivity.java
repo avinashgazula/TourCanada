@@ -43,7 +43,6 @@ public class ViewDestinationsActivity extends AppCompatActivity implements Searc
     private ArrayList<String> mImages       = new ArrayList<>();
     private ArrayList<String> mResult       = new ArrayList<>();
 
-
     RecyclerView recyclerView;
     DestinationViewAdapter adapter;
 
