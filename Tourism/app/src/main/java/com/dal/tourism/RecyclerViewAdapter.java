@@ -2,6 +2,7 @@ package com.dal.tourism;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_location_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -43,8 +44,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(mContext, holder.txt_locationName.getText().toString(), Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(mContext, holder.txt_locationName.getText().toString(), Toast.LENGTH_SHORT);
                 toast.show();
+                Intent intent = new Intent(mContext, ViewDestinationsActivity.class);
+                intent.putExtra("location", holder.txt_locationName.getText().toString());
+                mContext.startActivity(intent);
+
             }
         });
     }

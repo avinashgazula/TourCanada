@@ -18,6 +18,9 @@
             android:name=".ViewLocationsActivity"
             android:label="ViewLocations" />
         <activity
+            android:name=".ViewDestinationsActivity"
+            android:label="ViewDestinations" />
+        <activity
             android:name=".SignUpActivity"
             android:label="Login" />
         <activity

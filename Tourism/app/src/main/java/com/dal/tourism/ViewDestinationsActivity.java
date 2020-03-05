@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,18 +20,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ViewLocationsActivity extends AppCompatActivity {
+public class ViewDestinationsActivity extends AppCompatActivity {
 
-    private static final String TAG = "ViewLocationsActivity";
+    private static final String TAG = "ViewDestinationsActivity";
 
-    private ArrayList<String>  mLocations = new ArrayList<>();
+    private ArrayList<String> mDestinations = new ArrayList<>();
+    private ArrayList<String> mDescriptions = new ArrayList<>();
+    private ArrayList<String> mImages       = new ArrayList<>();
+    private ArrayList<String> mResult       = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_list);
+
         setTitle("Locations");
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -37,13 +45,15 @@ public class ViewLocationsActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        getLocations();
+        getDestinations();
         initRecyclerView();
     }
 
-    public void getLocations(){
+    private void getDestinations() {
         try {
-            String url = "http://10.0.2.2:5000/locations/";
+            String url = "http://10.0.2.2:5000/destinations/";
+            url += getIntent().getStringExtra("location");
+            Log.d(TAG, "getDestinations: url " + url);
             URL locationURL = new URL(url);
             HttpURLConnection con = (HttpURLConnection) locationURL.openConnection();
             con.setRequestMethod("GET");
@@ -56,13 +66,17 @@ public class ViewLocationsActivity extends AppCompatActivity {
             }
             in.close();
             JSONObject myResponse = new JSONObject(content.toString());
-            JSONArray locations = ((JSONArray) myResponse.get("result"));
-            Log.d(TAG, "getLocations: "+ locations);
-            for (int i=0; i<locations.length(); i++) {
-                mLocations.add(locations.getString(i));
+            JSONArray result = ((JSONArray) myResponse.get("result"));
+            Log.d(TAG, "getLocations: "+ result);
+            for (int i=0; i<result.length(); i++) {
+                mResult.add(result.getString(i));
+                Map<String, Object> retMap = new Gson().fromJson(
+                        result.getString(i), new TypeToken<HashMap<String, Object>>() {}.getType()
+                );
+                mDestinations.add(retMap.get("name").toString());
+                mDescriptions.add(retMap.get("description").toString());
+                mImages.add(retMap.get("photoURL").toString());
             }
-            Collections.sort(mLocations);
-            Log.d(TAG, "getLocations: mLocations" + mLocations);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +85,7 @@ public class ViewLocationsActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mLocations, this);
+        DestinationViewAdapter adapter = new DestinationViewAdapter(mDestinations, mDescriptions, mImages, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
