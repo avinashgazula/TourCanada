@@ -92,7 +92,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
 
-                            startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+                            startActivity(new Intent(AuthenticationActivity.this, ViewLocationsActivity.class));
                             finish();
 
                         }else{
