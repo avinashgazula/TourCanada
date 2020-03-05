@@ -63,6 +63,13 @@ public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationView
         return mDestinations.size();
     }
 
+    public void filterList(ArrayList<String> fDestinations, ArrayList<String> fDescriptions, ArrayList<String> fImages) {
+        mDestinations = fDestinations;
+        mDescriptions = fDescriptions;
+        mImages = fImages;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView txt_destinationName;
@@ -78,5 +85,6 @@ public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationView
             parent_layout = itemView.findViewById(R.id.parent_layout);
         }
     }
+
 
 }

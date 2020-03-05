@@ -17,12 +17,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements Serializable {
+public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapter.ViewHolder> implements Serializable {
 
     private ArrayList<String> mLocations;
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mLocations, Context mContext) {
+    public LocationViewAdapter(ArrayList<String> mLocations, Context mContext) {
         this.mLocations = mLocations;
         this.mContext = mContext;
 

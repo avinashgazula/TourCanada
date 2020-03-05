@@ -26,4 +26,5 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="dummy_location">Dummy Location</string>
     <string name="dummy_text">dummy text</string>
+    <string name="search_str">Search</string>
 </resources>
