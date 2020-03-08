@@ -1,10 +1,9 @@
+__author__ = "Daksh Patel"
 from boto3.dynamodb.conditions import Key
 from config import *
-__author__ = "Daksh Patel"
 import boto3
 import json
 import decimal
-
 
 session = boto3.Session(
     aws_access_key_id=aws_access_key_id,

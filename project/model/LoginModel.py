@@ -3,7 +3,6 @@ from project.model import dynamodb, scan_table
 import copy
 from boto3.dynamodb.conditions import Key
 
-
 class Login:
     def __init__(self):
         self.dynamodb=dynamodb
@@ -11,7 +10,7 @@ class Login:
 
     def getUserDetails(self, username):
         response = scan_table(table_name='users', filter_key='username', filter_value=username)
-        print(response)
+        # print(response)
         return response
 
     def checkUserCredentials(self, username, password):

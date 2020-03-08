@@ -20,7 +20,6 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
-
   <style>
     footer {
       position: absolute;
@@ -90,7 +89,7 @@
               method="GET" action="{{ url_for('destinations') }}">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                   aria-label="Search" aria-describedby="basic-addon2" name="location">
+                   aria-label="Search" aria-describedby="basic-addon2" name="location" value="{{ loc }}">
             <div class="input-group-append">
               <button class="btn btn-primary" type="submit">
                 <i class="fas fa-search fa-sm"></i>
@@ -284,7 +283,7 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">Trending Locations</h1>
+          <h1 class="h3 mb-0 text-gray-800">Results for {{ loc }}</h1>
         </div>
 
         <!-- Content Row -->
@@ -295,13 +294,25 @@
                 <div class="card border-left-primary shadow p-1" style="height: 25rem;">
                   <img src="{{ col['photoURL'] }}" class="card-img-top" style="height: 17rem;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ col['location'] }}</h5>
-
-{#                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Place</div>#}
-{#                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ col['location'] }}</div>#}
+                    <h5 class="card-title">{{ col['name'] }}</h5>
+                    {#                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the#}
+                    {#                      card's content.</p>#}
+                    <a href="#" class="btn btn-primary stretched-link">Get Info</a>
                   </div>
-                  <a href="#" class="btn btn-primary stretched-link mr-2 ml-2 ">Get Info</a>
                 </div>
+                {#                <div class="card border-left-primary shadow h-100 py-2 p-2">#}
+                {#                  <img src="{{ col['photoURL'] }}" class="card-img-top w-100 h-75">#}
+                {#                  <div class="card-body">#}
+                {#                    <div class="row no-gutters align-items-center">#}
+                {#                      <div class="col mr-2">#}
+                {#                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Place</div>#}
+                {#                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ col['name'] }}</div>#}
+                {#                        <div class="h6 mb-0 font-weight-bold text-gray-800">{{ col['name'] }}</div>#}
+                {#                      </div>#}
+                {#                    <a href="#" class="btn btn-primary stretched-link mr-2 ml-2 ">Get Info</a>#}
+                {#                    </div>#}
+                {#                  </div>#}
+                {#                </div>#}
               </div>
             {% endfor %}
           </div>
@@ -315,13 +326,13 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-{#        <footer class="sticky-footer bg-white">#}
-{#          <div class="container my-auto">#}
-{#            <div class="copyright text-center my-auto">#}
-{#              <span>Copyright &copy; Your Website 2019</span>#}
-{#            </div>#}
-{#          </div>#}
-{#        </footer>#}
+        <footer class="sticky-footer bg-white mt-5">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2019</span>
+            </div>
+          </div>
+        </footer>
         <!-- End of Footer -->
 
       </div>

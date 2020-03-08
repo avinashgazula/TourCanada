@@ -3,6 +3,8 @@ __author__ = "Daksh Patel"
 from flask import *
 from project import app
 from project.model.LoginModel import Login
+from project.model.LocationModel import Location
+
 
 @app.route('/')
 def index():
@@ -16,10 +18,29 @@ def index():
 def home():
 	if session.get('user'):
 		login = Login()
+		location=Location()
 		key = 'user'
-		response = login.getUserDetails(session.get(key)).get('Items')[0]
-		print(response)
-		return render_template('home.html', resp=response)
+		user = login.getUserDetails(session.get(key)).get('Items')[0]
+		trendingLocations=location.getLocations()
+		print(trendingLocations)
+		trendingLocations=sorted(trendingLocations, key=lambda t: t['id'])[:6]
+		# rows=len(trendingLocations)//3
+		finalTrends=[]
+		temp=[]
+		print('all',trendingLocations)
+		for i in range(len(trendingLocations)):
+			# print(i)
+			if (i%3==0 and i!=0):
+				finalTrends.append(temp)
+				temp=[]
+			temp.append(trendingLocations[i])
+			if i == len(trendingLocations) - 1:
+				finalTrends.append(temp)
+				temp = []
+		print('finalTrends',finalTrends)
+
+		print(user)
+		return render_template('home.html', user=user, trends=finalTrends)
 	else:
 		return redirect(url_for('login'))
 
