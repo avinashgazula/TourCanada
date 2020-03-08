@@ -1,20 +1,31 @@
 __author__ = "Daksh Patel"
-from pymongo import MongoClient
+from project.model import dynamodb, scan_table
 import copy
+from boto3.dynamodb.conditions import Key
 
 
 class Login:
     def __init__(self):
-        self.client = MongoClient()
-        self.db = self.client.tourcanada
-        self.table = self.db.users
+        self.dynamodb=dynamodb
+        self.table = dynamodb.Table('users')
 
-    def getUserCredentials(self, username):
-        error = None
-        rows = self.table.find({"username": "{}".format(username)})
-        row_count = self.table.count_documents({"username": "{}".format(username)})
-        if row_count>0:
-            error = 'Username doesnot exists'
-            return tuple(rows), error
+    def getUserDetails(self, username):
+        response = scan_table(table_name='users', filter_key='username', filter_value=username)
+        print(response)
+        return response
+
+    def checkUserCredentials(self, username, password):
+        error=None
+        matched=False
+        response=self.getUserDetails(username)
+        if response.get('Count')==0:
+            error="No user Found!"
+            return matched, error
         else:
-            return rows
+            pwd=response.get('Items')[0].get('password')
+            if pwd==password:
+                matched=True
+            else:
+                error = "Incorrect Password!"
+                matched=False
+            return matched, error
