@@ -1,3 +1,6 @@
+__author__ = "Avinash Gazula"
+
+
 from flask import Flask, jsonify, request, g
 import boto3
 aws_access_key_id = 'AKIA5WTK4BJPARQ7JDBC'

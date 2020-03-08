@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
+                android:text="avinash"
                 android:hint="@string/name" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
+                android:text="avinashgazula1@gmail.com"
                 android:hint="@string/email" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:text="+19024125705"
                 android:hint="@string/mobile_number" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:text="avinash"
                 android:hint="@string/password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:text="avinash"
                 android:hint="@string/re_enter_password"/>
         </com.google.android.material.textfield.TextInputLayout>
 

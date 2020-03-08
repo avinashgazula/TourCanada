@@ -51,4 +51,12 @@ dependencies {
 
 //    Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+
+//    AWS Cognito
+    implementation 'com.amazonaws:aws-android-sdk-core:2.6.29'
+    implementation('com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.29')
+    implementation "commons-logging:commons-logging-api:1.1"
+
+
 }
