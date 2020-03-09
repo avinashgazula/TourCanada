@@ -27,21 +27,6 @@ def before_request():
         region_name=region, )
 
 
-
-@app.route('/', methods=['GET', 'POST'])
-def hello():
-    if request.method == 'POST':
-        x = request.get_json()
-        return jsonify({'sent': x}), 201
-    else:
-        return jsonify({'sent':'nothing'})
-
-@app.route('/multi/', methods=['GET'])
-def get_mul():
-    num = int(request.args.get("num"))
-    print("num", num)
-    return jsonify({'result':num*10})
-
 # get a list of locations
 @app.route('/locations/', methods=['GET'])
 def get_locations():

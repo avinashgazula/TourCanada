@@ -2,8 +2,8 @@ __author__ = "Amogh Adithya"
 
 from flask import Flask, render_template, url_for, flash, redirect
 import sys
-sys.path.insert(0, './project/model')
-from forms import  PaymentForm
+# sys.path.insert(0, './project/model')
+from project.model.forms import  PaymentForm
 from project import app
 
 @app.route("/payment", methods=['GET', 'POST'])
