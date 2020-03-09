@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -120,17 +122,35 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        final CognitoSettings cognitoSettings = new CognitoSettings(ViewLocationsActivity.this);
 
         if (id == R.id.menu_item_sign_out){
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // user is now signed out
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            finish();
-                        }
-                    });
+
+            GenericHandler handler = new GenericHandler() {
+
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "onSuccess: Logout successful"+ cognitoSettings.getUserPool().getCurrentUser().getUserId());
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                }
+            };
+
+            CognitoUser user = cognitoSettings.getUserPool().getCurrentUser();
+            user.globalSignOutInBackground(handler);
+
+//            AuthUI.getInstance()
+//                    .signOut(this)
+//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            // user is now signed out
+//                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                            finish();
+//                        }
+//                    });
         }
         return super.onOptionsItemSelected(item);
     }

@@ -17,6 +17,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -59,12 +60,26 @@ public class SignUpActivity extends AppCompatActivity {
 
         final CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         final SignUpHandler signUpHandler = new SignUpHandler() {
+//            @Override
+//            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+//                Log.d(TAG, "onSuccess: Sign Up successful "+signUpConfirmationState);
+//                if(!signUpConfirmationState){
+//                    Log.d(TAG, "onSuccess: verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination());
+//                    Toast.makeText(getApplicationContext(), "verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination(), Toast.LENGTH_LONG).show();
+//                    Intent intent = new Intent(getApplicationContext(), VerifySignUpActivity.class);
+//                    intent.putExtra("userId", user.getUserId());
+//                    startActivity(intent);
+//                }else{
+//                    Log.d(TAG, "onSuccess: Account verified");
+//                }
+//            }
+
             @Override
-            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-                Log.d(TAG, "onSuccess: Sign Up successful "+signUpConfirmationState);
-                if(!signUpConfirmationState){
-                    Log.d(TAG, "onSuccess: verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination());
-                    Toast.makeText(getApplicationContext(), "verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination(), Toast.LENGTH_LONG).show();
+            public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
+                Log.d(TAG, "onSuccess: Sign Up successful "+signUpResult.getUserConfirmed());
+                if(!signUpResult.getUserConfirmed()){
+                    Log.d(TAG, "onSuccess: verification code sent to "+signUpResult.getCodeDeliveryDetails().getDestination());
+                    Toast.makeText(getApplicationContext(), "verification code sent to "+signUpResult.getCodeDeliveryDetails().getDestination(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), VerifySignUpActivity.class);
                     intent.putExtra("userId", user.getUserId());
                     startActivity(intent);

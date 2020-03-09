@@ -3,6 +3,7 @@ package com.dal.tourism;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,31 +18,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     static MultiFactorAuthenticationContinuation mfac;
-
-    private FirebaseAuth mAuth;
+    static ForgotPasswordContinuation fpc;
 
     EditText input_email;
     EditText input_password;
     TextView txt_createAccount;
     TextView txt_forgotPassword;
     Button btn_login;
+
+    CognitoUser user;
 
 
 
@@ -50,13 +50,39 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        if (user != null) {
-//            // User is signed in
-//            startActivity(new Intent(LoginActivity.this, ViewLocationsActivity.class));
-//            finish();
-//        }
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy =
+                    new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+
+        GetDetailsHandler getDetailsHandler = new GetDetailsHandler() {
+            @Override
+            public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+                // The user detail are in cognitoUserDetails
+                Log.d(TAG, "onSuccess: user details "+cognitoUserDetails);
+
+                Intent intent = new Intent(getApplicationContext(), ViewLocationsActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                // Fetch user details failed, check exception for the cause
+                Log.d(TAG, "onSuccess: user details "+exception);
+            }
+        };
+
+
+
+        CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
+        cognitoSettings.getUserPool().getCurrentUser().getDetailsInBackground(getDetailsHandler);
+
+
+
+
 
         input_email = findViewById(R.id.input_email);
         input_password = findViewById(R.id.input_password);
@@ -78,7 +104,10 @@ public class LoginActivity extends AppCompatActivity {
                     input_email.setError("Enter email");
                     input_email.requestFocus();
                 }else{
-
+                    resetPassword(input_email.getText().toString());
+                    Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                    intent.putExtra("userId", input_email.getText().toString());
+                    startActivity(intent);
                 }
             }
         });
@@ -127,8 +156,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Exception exception) {
                 // Sign-in failed, check exception for the cause
                 Log.d(TAG, "onFailure: sign-in failed "+exception);
+                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
             }
         };
+
+
+
+
+
 
 
 
@@ -149,9 +184,51 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void resetPassword(String userId) {
+
+        CognitoSettings cognitoSettings = new CognitoSettings(getApplicationContext());
+        CognitoUser user = cognitoSettings.getUserPool().getUser(userId);
+
+        ForgotPasswordHandler forgotPasswordHandler = new ForgotPasswordHandler() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: Password Reset Success");
+                Toast.makeText(getApplicationContext(), "Password Reset Successful. Login to continue", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+            }
+
+            @Override
+            public void getResetCode(ForgotPasswordContinuation continuation) {
+                Log.d(TAG, "getResetCode: Password Reset code sent");
+                fpc = continuation;
+//                continuation.setVerificationCode(input_code.getText().toString());
+//                continuation.setPassword(input_password.getText().toString());
+//                continuation.continueTask();
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Log.d(TAG, "onFailure: password reset failed "+ exception);
+            }
+        };
+
+
+        user.forgotPassword(forgotPasswordHandler);
+
+
+    }
+
+
     public static MultiFactorAuthenticationContinuation getMFAC(){
         return mfac;
     }
+
+    public static ForgotPasswordContinuation getFPC(){
+        return fpc;
+    }
+
 
 }
 

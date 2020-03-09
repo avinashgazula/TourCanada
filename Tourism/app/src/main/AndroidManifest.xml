@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VerifySignUpActivity"></activity>
+        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".VerifySignUpActivity" />
         <activity
             android:name=".ViewLocationsActivity"
             android:label="ViewLocations" />
@@ -30,7 +31,8 @@
         <activity
             android:name=".MainActivity"
             android:label="Main" />
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
