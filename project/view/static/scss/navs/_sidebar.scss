@@ -87,6 +87,8 @@
       content: '\f104';
       font-family: 'Font Awesome 5 Free';
       margin-right: 0.1rem;
+      transition: width0.3s ease;
+
     }
     &:hover {
       text-decoration: none;
