@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".TicketConfirmationActivity"></activity>
+        <activity android:name=".TicketActivity" />
+        <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".VerifySignUpActivity" />
         <activity
             android:name=".ViewLocationsActivity"

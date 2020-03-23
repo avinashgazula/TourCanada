@@ -2,6 +2,7 @@ package com.dal.tourism;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,10 @@ public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationView
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(mContext, TicketActivity.class);
+                intent.putExtra("destinationName", mDestinations.get(position));
+                intent.putExtra("destinationImage", mImages.get(position));
+                mContext.startActivity(intent);
 
             }
         });

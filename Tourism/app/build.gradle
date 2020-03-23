@@ -54,9 +54,14 @@ dependencies {
 
 
 //    AWS Cognito
-    implementation('com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.29')
+    implementation('com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.16.9')
     implementation "commons-logging:commons-logging-api:1.1"
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.9'
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
+    implementation 'com.amazonaws:aws-android-sdk-sns:2.16.9'
+    implementation 'com.amazonaws:aws-android-sdk-ses:2.16.9'
+//    implementation 'com.amazonaws:aws-java-sdk-ses:1.11.749'
 //    implementation 'com.amazonaws:aws-java-sdk:1.11.738'
 
 
