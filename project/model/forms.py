@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email
 import datetime
 from project.model import dynamodb, scan_table
 from wtforms import *
-from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import EmailField, DateField
 from flask import *
 from werkzeug.datastructures import MultiDict
 
