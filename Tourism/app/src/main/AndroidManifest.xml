@@ -15,6 +15,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".TicketConfirmationActivity"></activity>
+        <activity
+            android:name=".AddCard"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".TicketActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".VerifySignUpActivity" />

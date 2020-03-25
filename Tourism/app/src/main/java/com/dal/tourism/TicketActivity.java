@@ -87,7 +87,7 @@ public class TicketActivity extends AppCompatActivity {
         btn_buy_tickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TicketActivity.this, TicketConfirmationActivity.class);
+                Intent intent = new Intent(TicketActivity.this, AddCard.class);
                 intent.putExtra("destinationName", destinationName);
                 intent.putExtra("name", name);
                 intent.putExtra("email", email);
