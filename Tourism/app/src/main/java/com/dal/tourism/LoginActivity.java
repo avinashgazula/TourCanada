@@ -1,6 +1,9 @@
 package com.dal.tourism;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -58,6 +61,21 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+            Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG);
+        }
+        else{
+            connected = false;
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG);
+        }
+
+        Log.d(TAG, "onCreate: connection status: "+ connected);
+
         GetDetailsHandler getDetailsHandler = new GetDetailsHandler() {
             @Override
             public void onSuccess(CognitoUserDetails cognitoUserDetails) {
@@ -71,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception exception) {
                 // Fetch user details failed, check exception for the cause
-                Log.d(TAG, "onSuccess: user details "+exception);
+                Log.d(TAG, "onFailure: error "+exception);
             }
         };
 
@@ -159,9 +177,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
             }
         };
-
-
-
 
 
 

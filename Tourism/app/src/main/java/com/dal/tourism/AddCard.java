@@ -28,9 +28,9 @@ public class AddCard extends AppCompatActivity {
     String currentTime;
     ImageView imageicon;
     Button btn_buy_tickets;
-    TextView txt_name_val;
-    TextView txt_email_val;
-    TextView txt_destination_val;
+    TextView card_preview_name;
+    TextView card_preview_number;
+    TextView card_preview_expiry;
 
 
 
@@ -42,13 +42,16 @@ public class AddCard extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("New card");
+        getSupportActionBar().setTitle("Add card");
 
         cardnum = findViewById(R.id.CardNumber);
         expiry = findViewById(R.id.Expirydate);
         cvv = findViewById(R.id.cvv);
         noteTitle = findViewById(R.id.noteTitle);
         imageicon = findViewById(R.id.cardicon);
+        card_preview_name = findViewById(R.id.card_preview_name);
+        card_preview_number = findViewById(R.id.card_preview_number);
+        card_preview_expiry = findViewById(R.id.card_preview_expiry);
         btn_buy_tickets = findViewById(R.id.btn_buy_tickets);
 
         final String name = getIntent().getStringExtra("name");
@@ -68,6 +71,7 @@ public class AddCard extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     getSupportActionBar().setTitle(s);
+                    card_preview_name.setText(s);
                 }
             }
 
@@ -89,12 +93,32 @@ public class AddCard extends AppCompatActivity {
                     if (s.charAt(0) == 1 || s.charAt(0) == 4) {
                         imageicon.setImageResource(R.drawable.visa);
                     }
+                    card_preview_number.setText(s);
                 }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        expiry.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length() != 0){
+                    card_preview_expiry.setText(charSequence);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });

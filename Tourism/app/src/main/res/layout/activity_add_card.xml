@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_blue_normal"
+    android:background="@color/white"
     tools:context=".AddCard">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/bg_blue_normal"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme"
+        app:title="New Card"
+        app:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +23,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="676dp"
-        android:background="@color/bg_blue_normal"
+        android:background="@color/white"
         android:orientation="vertical"
         android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,14 +32,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".33"
-            android:background="@color/bg_blue_normal">
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary">
 
             <RelativeLayout
                 android:id="@+id/card_preview_back"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
                 android:visibility="gone">
 
                 <ImageView
@@ -48,6 +50,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -76,7 +79,7 @@
             <RelativeLayout
                 android:id="@+id/card_preview_front"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/colorPrimary"
                 android:visibility="visible">
@@ -154,9 +157,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".7"
-            android:background="@color/bg_blue_normal">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <LinearLayout
                 android:id="@+id/payment_amount_layout"
@@ -243,29 +245,28 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/expiry_date_layout"
+                android:id="@+id/ExpiryDateLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/CardNumberTxt"
+                android:layout_below="@id/CardNumberTxt"
+
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp"
-                android:weightSum="1">
+                android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ExpirydateTxt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_weight=".45"
+                    android:layout_weight=".5"
                     android:inputType="textFilter|textNoSuggestions"
-                    android:textColorHint="@color/ip_txt_hint_clr"
                     android:theme="@style/TextInputLayoutStyle"
                     app:boxBackgroundColor="@color/white"
-                    app:boxStrokeColor="@color/colorBlack"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    app:boxStrokeColor="@color/colorBlack">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/Expirydate"
@@ -273,7 +274,7 @@
                         android:layout_height="match_parent"
                         android:drawablePadding="8px"
                         android:gravity="top"
-                        android:hint="Expiry Date"
+                        android:hint="Expiry (MM/YY)"
                         android:inputType="phone"
                         android:lines="1"
                         android:maxLength="5"
@@ -282,20 +283,16 @@
                         android:textColorHint="#D3D8D4" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.legacy.widget.Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".10" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/cvvTxt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_weight=".45"
+                    android:layout_weight="0.5"
                     android:inputType="textFilter|textNoSuggestions"
-                    android:textColorHint="@color/ip_txt_hint_clr"
                     android:theme="@style/TextInputLayoutStyle"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/colorBlack"
@@ -304,7 +301,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/cvv"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="8px"
                         android:gravity="top"
                         android:hint="CVV"
@@ -319,20 +316,24 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/btn_buy_tickets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ExpiryDateLayout"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Buy Tickets"
+                android:textColor="@android:color/white" />
+
         </RelativeLayout>
-        <Button
-            android:id="@+id/btn_buy_tickets"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/cvv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="120dp"
-            android:layout_marginLeft="220dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:text="Buy Tickets"/>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

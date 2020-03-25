@@ -12,7 +12,6 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:id="@+id/image"
-        android:src="@mipmap/ic_launcher_round"
         android:contentDescription="@string/dummy_text"/>
 
     <TableLayout
