@@ -35,6 +35,7 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     private static final String TAG = "ViewLocationsActivity";
 
     private ArrayList<String>  mLocations = new ArrayList<>();
+    private ArrayList<String> mImages = new ArrayList<>();
 
     RecyclerView recyclerView;
     LocationViewAdapter adapter;
@@ -83,12 +84,16 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
             }
             in.close();
             JSONObject myResponse = new JSONObject(content.toString());
-            JSONArray locations = ((JSONArray) myResponse.get("result"));
+            JSONArray locations = ((JSONArray) myResponse.get("locations"));
             Log.d(TAG, "getLocations: "+ locations);
             for (int i=0; i<locations.length(); i++) {
                 mLocations.add(locations.getString(i));
             }
-            Collections.sort(mLocations);
+            JSONArray images = (JSONArray) myResponse.get("images");
+            for(int i=0; i<images.length(); i++){
+                mImages.add(images.getString(i));
+            }
+//            Collections.sort(mLocations);
             Log.d(TAG, "getLocations: mLocations" + mLocations);
 
         } catch (Exception e) {
@@ -98,7 +103,7 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new LocationViewAdapter(mLocations, this);
+        adapter = new LocationViewAdapter(mLocations, mImages,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

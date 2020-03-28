@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,8 +86,9 @@ public class ViewDestinationsActivity extends AppCompatActivity implements Searc
 
     private void getDestinations() {
         try {
-            String url = "http://10.0.2.2:5000/destinations/";
-            url += getIntent().getStringExtra("location");
+            String url = "http://10.0.2.2:5000/destinations?location=";
+            String location = getIntent().getStringExtra("location");
+            url += URLEncoder.encode(location, "utf-8");
             Log.d(TAG, "getDestinations: url " + url);
             URL locationURL = new URL(url);
             HttpURLConnection con = (HttpURLConnection) locationURL.openConnection();
