@@ -77,7 +77,7 @@ public class TicketActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception exception) {
                 // Fetch user details failed, check exception for the cause
-                Log.d(TAG, "onSuccess: user details "+exception);
+                Log.d(TAG, "onFailure: user details fetch failed  "+exception);
             }
         };
 

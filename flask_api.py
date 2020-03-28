@@ -71,6 +71,7 @@ def get_bookings():
             item.pop('user_id', None)
         return jsonify({'result': item_list})
     if request.method == 'POST':
+        
         try:
             request_data = json.loads(request.data.decode('UTF-8'))
             user_id = request_data['user']
@@ -84,7 +85,8 @@ def get_bookings():
                 }
             )
             return jsonify({'status': "success"})
-        except:
+        except Exception as e:
+            print("exception", e)
             return jsonify({'status': "failed" })
 
 
