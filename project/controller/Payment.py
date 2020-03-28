@@ -6,7 +6,8 @@ import sys
 from project.model.forms import  PaymentForm
 from project import app
 
-@app.route("/payment", methods=['GET', 'POST'])
+
+@app.route('/payment', methods=['GET', 'POST'])
 def payment():
     form = PaymentForm()
     if form.validate_on_submit():
