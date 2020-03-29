@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -46,7 +49,7 @@ public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.txt_locationName.setText(mLocations.get(position));
+        holder.txt_locationName.setText(WordUtils.capitalizeFully(mLocations.get(position)));
         Picasso.get().load(mImages.get(position)).into(holder.image);
 
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +70,9 @@ public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapte
         return mLocations.size();
     }
 
-    public void filterList(ArrayList<String> fLocations) {
+    public void filterList(ArrayList<String> fLocations, ArrayList<String> fImages) {
         mLocations = fLocations;
+        mImages = fImages;
         notifyDataSetChanged();
     }
 

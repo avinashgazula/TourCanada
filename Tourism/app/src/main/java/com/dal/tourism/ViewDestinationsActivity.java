@@ -88,6 +88,7 @@ public class ViewDestinationsActivity extends AppCompatActivity implements Searc
         try {
             String url = "http://10.0.2.2:5000/destinations?location=";
             String location = getIntent().getStringExtra("location");
+            location = location.toLowerCase();
             url += URLEncoder.encode(location, "utf-8");
             Log.d(TAG, "getDestinations: url " + url);
             URL locationURL = new URL(url);

@@ -59,14 +59,15 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     private void filter(String text) {
 
         ArrayList<String> fLocations = new ArrayList<>();
+        ArrayList<String> fImages = new ArrayList<>();
 
         for (int i=0; i<mLocations.size(); i++){
             if (mLocations.get(i).toLowerCase().contains(text.toLowerCase())){
                 fLocations.add(mLocations.get(i));
+                fImages.add(mImages.get(i));
             }
         }
-
-        adapter.filterList(fLocations);
+        adapter.filterList(fLocations, fImages);
     }
 
     public void getLocations(){
@@ -147,15 +148,7 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
             CognitoUser user = cognitoSettings.getUserPool().getCurrentUser();
             user.globalSignOutInBackground(handler);
 
-//            AuthUI.getInstance()
-//                    .signOut(this)
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            // user is now signed out
-//                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                            finish();
-//                        }
-//                    });
+
         }
         return super.onOptionsItemSelected(item);
     }
