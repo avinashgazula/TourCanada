@@ -14,11 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TicketConfirmationActivity"></activity>
+        <activity android:name=".TicketConfirmationActivity" />
         <activity
             android:name=".AddCard"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".TicketActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".VerifySignUpActivity" />
@@ -39,6 +38,10 @@
             android:label="Main" />
         <activity
             android:name=".LoginActivity"
+            android:label="Main" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

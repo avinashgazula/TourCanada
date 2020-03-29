@@ -72,31 +72,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: connection status: "+ connected);
 
-        GetDetailsHandler getDetailsHandler = new GetDetailsHandler() {
-            @Override
-            public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-                // The user detail are in cognitoUserDetails
-                Log.d(TAG, "onSuccess: user details "+cognitoUserDetails);
-
-                Intent intent = new Intent(getApplicationContext(), ViewLocationsActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-                // Fetch user details failed, check exception for the cause
-                Log.d(TAG, "onFailure: error "+exception);
-            }
-        };
-
-
-
-        CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
-        cognitoSettings.getUserPool().getCurrentUser().getDetailsInBackground(getDetailsHandler);
-
-
-
-
 
         input_email = findViewById(R.id.input_email);
         input_password = findViewById(R.id.input_password);
