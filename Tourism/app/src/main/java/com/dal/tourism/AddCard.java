@@ -31,6 +31,7 @@ public class AddCard extends AppCompatActivity {
     TextView card_preview_name;
     TextView card_preview_number;
     TextView card_preview_expiry;
+    int flag = 0;
 
 
 
@@ -58,6 +59,9 @@ public class AddCard extends AppCompatActivity {
         final String email = getIntent().getStringExtra("email");
         final String phone_number = getIntent().getStringExtra("phone_number");
         final String destinationName = getIntent().getStringExtra("destinationName");
+
+
+        //btn_buy_tickets.setEnabled(false);
 
 
 
@@ -89,6 +93,8 @@ public class AddCard extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                checkRequiredFields();
                 if (s.length() != 0) {
                     if (s.charAt(0) == 1 || s.charAt(0) == 4) {
                         imageicon.setImageResource(R.drawable.visa);
@@ -112,6 +118,7 @@ public class AddCard extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                checkRequiredFields();
                 if(charSequence.length() != 0){
                     card_preview_expiry.setText(charSequence);
                 }
@@ -135,15 +142,32 @@ public class AddCard extends AppCompatActivity {
         {
             @Override
             public void onClick (View view){
-                Intent intent = new Intent(AddCard.this, TicketConfirmationActivity.class);
-                intent.putExtra("destinationName", destinationName);
-                intent.putExtra("name", name);
-                intent.putExtra("email", email);
-                intent.putExtra("phone_number", phone_number);
-                startActivity(intent);
+
+                if(flag==0){
+                    Toast.makeText(getBaseContext(),"Please enter the cardnum and expiry", Toast.LENGTH_SHORT).show();
+                }
+                else if(flag==1)
+                {
+                    Intent intent = new Intent(AddCard.this, TicketConfirmationActivity.class);
+                    intent.putExtra("destinationName", destinationName);
+                    intent.putExtra("name", name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("phone_number", phone_number);
+                    startActivity(intent);
+                }
             }
         });
 
+    }
+
+    public void checkRequiredFields() {
+        if (!cardnum.getText().toString().isEmpty() && !expiry.getText().toString().isEmpty()) {
+           // btn_buy_tickets.setEnabled(true);
+            flag = 1;
+        } else {
+            flag = 0;
+            //btn_buy_tickets.setEnabled(false);
+        }
     }
 
     private String pad(int time) {
