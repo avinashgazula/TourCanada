@@ -4,24 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".TicketConfirmationActivity">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/app_logo"/>
 
     <TextView
         android:id="@+id/txt_tickets_purchased"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tickets Purchased!"
+        android:layout_below="@id/app_logo"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/qrCode"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/txt_tickets_purchased"
         android:layout_centerHorizontal="true"/>
 
@@ -33,7 +43,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/qrCode"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="20dp"/>
 
     <TableLayout
         android:id="@+id/layout"
@@ -41,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_scan_code"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <TableRow>
             <TextView
@@ -119,7 +129,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/layout"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btn_home"
@@ -128,7 +138,7 @@
         android:layout_below="@id/txt_nice_trip"
         android:layout_centerHorizontal="true"
         android:text="Home"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"/>
 

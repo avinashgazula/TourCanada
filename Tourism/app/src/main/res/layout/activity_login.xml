@@ -8,12 +8,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".activities.LoginActivity">
+
+        <ImageView
+            android:id="@+id/app_logo"
+            android:layout_marginTop="40dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/app_logo"/>
 
 
 
         <RelativeLayout
             android:id="@+id/layout2"
+            android:layout_below="@id/app_logo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -37,6 +47,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
+                android:textColorHint="@color/colorPrimary"
                 app:boxBackgroundColor="@color/colorPrimary"
                 app:boxStrokeColor="@color/colorPrimary">
                 <EditText android:id="@+id/input_email"
@@ -57,6 +68,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
+                android:textColorHint="@color/colorPrimary"
                 app:boxBackgroundColor="@color/colorPrimary"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:passwordToggleEnabled="true">
@@ -80,7 +92,8 @@
                 android:layout_margin="10dp"
                 android:padding="8dp"
                 android:text="@string/login"
-                android:textColor="@color/colorPrimary" />
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white" />
 
 
             <TextView

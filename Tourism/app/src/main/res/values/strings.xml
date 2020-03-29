@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tourism</string>
+    <string name="app_name">TourCanada</string>
     <string name="title_activity_login">Login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
