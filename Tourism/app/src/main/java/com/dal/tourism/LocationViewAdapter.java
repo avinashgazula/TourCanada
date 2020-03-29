@@ -55,8 +55,7 @@ public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapte
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(mContext, holder.txt_locationName.getText().toString(), Toast.LENGTH_SHORT);
-                toast.show();
+                
                 Intent intent = new Intent(mContext, ViewDestinationsActivity.class);
                 intent.putExtra("location", holder.txt_locationName.getText().toString());
                 mContext.startActivity(intent);
