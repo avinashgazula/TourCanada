@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TicketConfirmationActivity" />
+        <activity android:name=".TicketConfirmationActivity"
+            android:label="Confirmation"/>
         <activity
             android:name=".AddCard"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -29,16 +30,13 @@
             android:label="ViewDestinations" />
         <activity
             android:name=".SignUpActivity"
-            android:label="Login" />
+            android:label="Create Account" />
         <activity
             android:name=".AuthenticationActivity"
             android:label="Authentication" />
         <activity
-            android:name=".MainActivity"
-            android:label="Main" />
-        <activity
             android:name=".LoginActivity"
-            android:label="Main" />
+            android:label="Login" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar"
