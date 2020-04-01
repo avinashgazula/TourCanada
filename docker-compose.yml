@@ -1,0 +1,8 @@
+version: '2.0'
+
+services: 
+  apicloud:
+    build: ./flask-docker
+    ports: 
+      - "8000:8000"
+    network_mode: host
