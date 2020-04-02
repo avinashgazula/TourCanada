@@ -186,7 +186,7 @@ public class TicketConfirmationActivity extends AppCompatActivity {
                 .withStringValue("0.50") //Sets the max price to 0.50 USD.
                 .withDataType("Number"));
         smsAttributes.put("AWS.SNS.SMS.SMSType", new MessageAttributeValue()
-                .withStringValue("Promotional") //Sets the type to promotional.
+                .withStringValue("Transactional") //Sets the type to promotional.
                 .withDataType("String"));
 
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials("AKIA5WTK4BJPARQ7JDBC", "AlT3NjH+hBE7N55wfn1VOU1jzTSqMRj5AQrcDM3d");
@@ -230,9 +230,11 @@ public class TicketConfirmationActivity extends AppCompatActivity {
         String bodyText = "Hello, "+ name +". You have successfully purchased tickets to "+destinationName+". Have a nice trip!";
         Body messageBody = new Body(new Content(bodyText));
         Message feedbackMessage = new Message(subjectContent,messageBody);
-        Destination destination = new Destination().withToAddresses(email);
 
-        SendEmailRequest request = new SendEmailRequest(email,destination,feedbackMessage);
+        Destination destination = new Destination().withToAddresses(email);
+        String from_email = "ticket-confirmation@tourcanada.awsapps.com";
+
+        SendEmailRequest request = new SendEmailRequest(from_email,destination,feedbackMessage);
         SendEmailResult result = sesClient.sendEmail(request);
         System.out.println("sendEmailMessage: result "+ result.toString());
     }

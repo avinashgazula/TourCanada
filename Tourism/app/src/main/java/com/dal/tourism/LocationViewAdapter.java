@@ -55,7 +55,7 @@ public class LocationViewAdapter extends RecyclerView.Adapter<LocationViewAdapte
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 Intent intent = new Intent(mContext, ViewDestinationsActivity.class);
                 intent.putExtra("location", holder.txt_locationName.getText().toString());
                 mContext.startActivity(intent);
