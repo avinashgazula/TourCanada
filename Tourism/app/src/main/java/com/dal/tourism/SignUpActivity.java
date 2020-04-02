@@ -1,5 +1,6 @@
 package com.dal.tourism;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText password2;
     Button btn_signUp;
     TextView txt_login;
+
+    private ProgressDialog waitDialog;
 
 
 
@@ -122,6 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     if (!(email_str.isEmpty() || password_str.isEmpty())){
+
                         userAttributes.addAttribute("name", name_str);
                         userAttributes.addAttribute("phone_number", mobile_number_str);
                         userAttributes.addAttribute("email", email_str);
@@ -140,6 +144,22 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 }
 

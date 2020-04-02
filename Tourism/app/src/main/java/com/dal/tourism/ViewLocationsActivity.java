@@ -1,5 +1,6 @@
 package com.dal.tourism;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,6 +40,8 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
 
     RecyclerView recyclerView;
     LocationViewAdapter adapter;
+
+    private ProgressDialog waitDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,11 +134,12 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
         final CognitoSettings cognitoSettings = new CognitoSettings(ViewLocationsActivity.this);
 
         if (id == R.id.menu_item_sign_out){
-
+            showWaitDialog("Signing out..");
             GenericHandler handler = new GenericHandler() {
 
                 @Override
                 public void onSuccess() {
+//                    closeWaitDialog();
                     Log.d(TAG, "onSuccess: Logout successful"+ cognitoSettings.getUserPool().getCurrentUser().getUserId());
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -162,5 +166,21 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     public boolean onQueryTextChange(String s) {
         filter(s);
         return true;
+    }
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 }

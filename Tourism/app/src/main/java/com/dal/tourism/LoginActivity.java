@@ -1,5 +1,6 @@
 package com.dal.tourism;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -44,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView txt_createAccount;
     TextView txt_forgotPassword;
     Button btn_login;
+
+    private ProgressDialog waitDialog;
 
 
     @Override
@@ -107,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                closeWaitDialog();
                 Log.d(TAG, "onSuccess: Login Successful");
 
                 Intent intent = new Intent(LoginActivity.this, ViewLocationsActivity.class);
@@ -129,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
                 mfac = multiFactorAuthenticationContinuation;
+
+                new ProgressDialog(getApplicationContext()).dismiss();
 
                 Log.d(TAG, "getMFACode: MFA Required");
                 Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
@@ -156,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showWaitDialog("Sending 2FA code..");
                 String email_str = input_email.getText().toString();
                 String password_str = input_password.getText().toString();
 
@@ -213,6 +220,23 @@ public class LoginActivity extends AppCompatActivity {
 
     public static ForgotPasswordContinuation getFPC(){
         return fpc;
+    }
+
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 
 
