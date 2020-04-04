@@ -118,7 +118,7 @@ public class TicketConfirmationActivity extends AppCompatActivity {
 
         //Saving to database
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String stringURL = "http://10.0.2.2:5000/bookings";
+        String stringURL = "http://flaskapi-env.eba-pj7c3myx.us-east-1.elasticbeanstalk.com/bookings";
         JSONObject object = new JSONObject();
         try {
             Log.d(TAG, "onCreate: volley user_id"+ user_id[0]);

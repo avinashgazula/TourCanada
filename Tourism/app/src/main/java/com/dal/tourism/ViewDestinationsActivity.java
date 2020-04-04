@@ -86,7 +86,7 @@ public class ViewDestinationsActivity extends AppCompatActivity implements Searc
 
     private void getDestinations() {
         try {
-            String url = "http://10.0.2.2:5000/destinations?location=";
+            String url = "http://flaskapi-env.eba-pj7c3myx.us-east-1.elasticbeanstalk.com/destinations?location=";
             String location = getIntent().getStringExtra("location");
             location = location.toLowerCase();
             url += URLEncoder.encode(location, "utf-8");

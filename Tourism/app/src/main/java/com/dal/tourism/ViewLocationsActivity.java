@@ -75,7 +75,7 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
 
     public void getLocations(){
         try {
-            String url = "http://10.0.2.2:5000/locations/";
+            String url = "http://flaskapi-env.eba-pj7c3myx.us-east-1.elasticbeanstalk.com/locations/";
             URL locationURL = new URL(url);
             HttpURLConnection con = (HttpURLConnection) locationURL.openConnection();
             con.setRequestMethod("GET");
