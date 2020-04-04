@@ -58,6 +58,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         btn_submitCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(input_code.getText().toString().isEmpty()){
+                    input_code.requestFocus();
+                    input_code.setError("Enter verification code");
+                }
+
                 showWaitDialog("Logging in..");
                 String code = input_code.getText().toString();
                 if (code == ""){

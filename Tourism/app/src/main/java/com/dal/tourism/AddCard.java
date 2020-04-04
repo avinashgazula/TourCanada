@@ -143,10 +143,29 @@ public class AddCard extends AppCompatActivity {
             @Override
             public void onClick (View view){
 
-                if(flag==0){
-                    Toast.makeText(getBaseContext(),"Please enter the cardnum and expiry", Toast.LENGTH_SHORT).show();
+                flag = 0;
+
+                if(cardnum.getText().toString().isEmpty()){
+                    cardnum.requestFocus();
+                    cardnum.setError("Enter a valid card number");
+                    flag = 1;
                 }
-                else if(flag==1)
+                if(expiry.getText().toString().isEmpty()){
+                    expiry.requestFocus();
+                    expiry.setError("Enter the expiry date");
+                    flag = 1;
+                }
+                if(!expiry.getText().toString().contains("/")){
+                    expiry.requestFocus();
+                    expiry.setError("Invalid date format");
+                }
+                if(cvv.getText().toString().isEmpty()){
+                    cvv.requestFocus();
+                    cvv.setError("Enter CVV");
+                    flag = 1;
+                }
+                
+               if(flag==0)
                 {
                     Intent intent = new Intent(AddCard.this, TicketConfirmationActivity.class);
                     intent.putExtra("destinationName", destinationName);

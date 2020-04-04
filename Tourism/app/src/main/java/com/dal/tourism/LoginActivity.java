@@ -2,6 +2,7 @@ package com.dal.tourism;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -47,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_login;
 
     private ProgressDialog waitDialog;
+    private AlertDialog userDialog;
 
 
     @Override
@@ -133,7 +137,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
                 mfac = multiFactorAuthenticationContinuation;
+                showWaitDialog("Sending 2FA code to "+mfac.getParameters().getDestination());
 
+                Log.d(TAG, "getMFACode: mfac params "+mfac.getParameters().getDestination());
                 new ProgressDialog(getApplicationContext()).dismiss();
 
                 Log.d(TAG, "getMFACode: MFA Required");
@@ -151,7 +157,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Exception exception) {
                 // Sign-in failed, check exception for the cause
                 Log.d(TAG, "onFailure: sign-in failed "+exception);
-                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+
+                String message = exception.getMessage();
+                int index = message.indexOf('(');
+                message = message.substring(0, index);
+
+                showDialogMessage("Error", message);
+//                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -162,9 +174,31 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showWaitDialog("Sending 2FA code..");
+
+                if(input_email.getText().toString().isEmpty()){
+                    input_email.requestFocus();
+                    input_email.setError("Enter email");
+                    return;
+                }
+                if(input_password.getText().toString().isEmpty()){
+                    input_password.requestFocus();
+                    input_password.setError("Enter password");
+                    return;
+                }
+                if(!input_email.getText().toString().contains("@")){
+                    input_email.requestFocus();
+                    input_email.setError("Enter a valid email");
+                    return;
+                }
+
+                try {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+
                 String email_str = input_email.getText().toString();
-                String password_str = input_password.getText().toString();
 
                 CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
                 CognitoUser user = cognitoSettings.getUserPool().getUser(email_str);
@@ -220,6 +254,21 @@ public class LoginActivity extends AppCompatActivity {
 
     public static ForgotPasswordContinuation getFPC(){
         return fpc;
+    }
+
+    private void showDialogMessage(String title, String body) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                } catch (Exception e) {
+                }
+            }
+        });
+        userDialog = builder.create();
+        userDialog.show();
     }
 
 

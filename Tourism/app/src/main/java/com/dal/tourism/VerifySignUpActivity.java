@@ -50,6 +50,12 @@ public class VerifySignUpActivity extends AppCompatActivity {
         btn_submitCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(input_code.getText().toString().isEmpty()){
+                    input_code.requestFocus();
+                    input_code.setError("Enter verification code");
+                }
+
+
                 String code = input_code.getText().toString();
                 if (code == ""){
                     input_code.setError("Enter Authentication Code");
