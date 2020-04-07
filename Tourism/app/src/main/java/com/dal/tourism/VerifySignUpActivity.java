@@ -36,7 +36,7 @@ public class VerifySignUpActivity extends AppCompatActivity {
             public void onSuccess() {
                 // User was successfully confirmed
                 Log.d(TAG, "onSuccess: User was successfully confirmed");
-                Intent intent = new Intent(getApplicationContext(), ViewLocationsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
 

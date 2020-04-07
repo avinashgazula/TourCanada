@@ -22,7 +22,7 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="create_account_str">Create Account</string>
     <string name="already_a_member_login">Already a member? Login</string>
-    <string name="signout">signout</string>
+    <string name="signout">Log out</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="dummy_location">Dummy Location</string>
     <string name="dummy_text">dummy text</string>

@@ -185,11 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                     input_password.setError("Enter password");
                     return;
                 }
-                if(!input_email.getText().toString().contains("@")){
-                    input_email.requestFocus();
-                    input_email.setError("Enter a valid email");
-                    return;
-                }
 
                 try {
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);

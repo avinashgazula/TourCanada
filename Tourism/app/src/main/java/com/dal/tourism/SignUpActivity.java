@@ -36,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
 
     EditText name;
+    EditText username;
     EditText email;
     EditText mobile_number;
     EditText password1;
@@ -55,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         name = findViewById(R.id.input_name);
+        username = findViewById(R.id.input_username);
         email = findViewById(R.id.input_email);
         mobile_number = findViewById(R.id.input_mobile);
         password1 = findViewById(R.id.input_password);
@@ -122,6 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 if (password1.getText().toString().equals(password2.getText().toString())){
+                    final String username_str = username.getText().toString();
                     final String name_str = name.getText().toString();
                     final String email_str = email.getText().toString();
                     String password_str = password1.getText().toString();
@@ -140,19 +143,18 @@ public class SignUpActivity extends AppCompatActivity {
 
                         userAttributes.addAttribute("name", name_str);
                         userAttributes.addAttribute("phone_number", mobile_number_str);
+//                        userAttributes.addAttribute("preferred_username", username_str);
                         userAttributes.addAttribute("email", email_str);
 
                         CognitoSettings cognitoSettings = new CognitoSettings(SignUpActivity.this);
-
-                        cognitoSettings.getUserPool().signUpInBackground(email_str, password_str, userAttributes, null, signUpHandler);
+                        cognitoSettings.getUserPool().signUpInBackground(username_str, password_str, userAttributes, null, signUpHandler);
 
 
                     }
 
                 }
                 else{
-                    Toast password_mismatch = Toast.makeText(getApplicationContext(), "Password mismatch", Toast.LENGTH_LONG);
-                    password_mismatch.show();
+                    showDialogMessage("Error", "Password Mismatch");
                 }
             }
         });

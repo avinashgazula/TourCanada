@@ -164,7 +164,7 @@ public class AddCard extends AppCompatActivity {
                     cvv.setError("Enter CVV");
                     flag = 1;
                 }
-                
+
                if(flag==0)
                 {
                     Intent intent = new Intent(AddCard.this, TicketConfirmationActivity.class);

@@ -21,7 +21,6 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:src="@drawable/app_logo" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -36,10 +35,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="avinash"
+                android:text="Avinash"
                 android:hint="@string/name" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="@color/colorPrimary"
+            app:boxBackgroundColor="@color/colorPrimary"
+            app:boxStrokeColor="@color/colorPrimary">
+            <EditText android:id="@+id/input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:text="avinashgazula"
+                android:hint="Username" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--  Email Label -->
         <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="avinash"
+                android:text="Avinash_123"
                 android:hint="@string/password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="avinash"
+                android:text="Avinash_123"
                 android:hint="@string/re_enter_password"/>
         </com.google.android.material.textfield.TextInputLayout>
 

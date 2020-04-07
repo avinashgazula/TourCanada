@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,6 +34,7 @@ public class TicketActivity extends AppCompatActivity {
     TextView txt_email_val;
     TextView txt_destination_val;
     TextView txt_price_val;
+    int price;
     Spinner spinner;
     TextView txt_date_val;
     Button btn_buy_tickets;
@@ -41,6 +43,7 @@ public class TicketActivity extends AppCompatActivity {
     String email;
     String phone_number;
     String destinationName;
+
 
     DatePickerDialog picker;
 
@@ -61,6 +64,22 @@ public class TicketActivity extends AppCompatActivity {
         Integer[] items = new Integer[]{1,2,3,4,5};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
         spinner.setAdapter(adapter);
+        price = new Random().nextInt((20 - 11) + 1) + 11;
+        txt_price_val.setText("$" + price);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String num_tickets_str = spinner.getSelectedItem().toString();
+                int num_tickets = Integer.parseInt(num_tickets_str);
+                price = price * num_tickets;
+                txt_price_val.setText("$"+price);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         txt_date_val.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +119,7 @@ public class TicketActivity extends AppCompatActivity {
                 txt_email_val.setAllCaps(true);
                 txt_destination_val.setText(destinationName);
                 txt_destination_val.setAllCaps(true);
-                int price = new Random().nextInt((20 - 11) + 1) + 11;
-                txt_price_val.setText("$" + price);
+
                 Picasso.get().load(destinationImage).into(image);
 
                 Log.d(TAG, "onSuccess: name: "+ userDetails.get("name"));
