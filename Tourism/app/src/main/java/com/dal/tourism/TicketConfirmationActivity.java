@@ -35,6 +35,7 @@ import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -117,7 +118,7 @@ public class TicketConfirmationActivity extends AppCompatActivity {
 
         //Saving to database
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String stringURL = "http://10.0.2.2:5000/bookings";
+        String stringURL = "http://flaskapi-env.eba-pj7c3myx.us-east-1.elasticbeanstalk.com/bookings";
         JSONObject object = new JSONObject();
         try {
             Log.d(TAG, "onCreate: volley user_id"+ user_id[0]);
@@ -151,6 +152,7 @@ public class TicketConfirmationActivity extends AppCompatActivity {
                         }
                     }
             );
+            objectRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(objectRequest);
 
         } catch (MalformedURLException e) {
@@ -184,7 +186,7 @@ public class TicketConfirmationActivity extends AppCompatActivity {
                 .withStringValue("0.50") //Sets the max price to 0.50 USD.
                 .withDataType("Number"));
         smsAttributes.put("AWS.SNS.SMS.SMSType", new MessageAttributeValue()
-                .withStringValue("Promotional") //Sets the type to promotional.
+                .withStringValue("Transactional") //Sets the type to promotional.
                 .withDataType("String"));
 
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials("AKIA5WTK4BJPARQ7JDBC", "AlT3NjH+hBE7N55wfn1VOU1jzTSqMRj5AQrcDM3d");
@@ -228,9 +230,11 @@ public class TicketConfirmationActivity extends AppCompatActivity {
         String bodyText = "Hello, "+ name +". You have successfully purchased tickets to "+destinationName+". Have a nice trip!";
         Body messageBody = new Body(new Content(bodyText));
         Message feedbackMessage = new Message(subjectContent,messageBody);
-        Destination destination = new Destination().withToAddresses(email);
 
-        SendEmailRequest request = new SendEmailRequest(email,destination,feedbackMessage);
+        Destination destination = new Destination().withToAddresses(email);
+        String from_email = "ticket-confirmation@tourcanada.awsapps.com";
+
+        SendEmailRequest request = new SendEmailRequest(from_email,destination,feedbackMessage);
         SendEmailResult result = sesClient.sendEmail(request);
         System.out.println("sendEmailMessage: result "+ result.toString());
     }

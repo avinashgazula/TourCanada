@@ -3,6 +3,7 @@ package com.dal.tourism;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     Button btn_submitCode;
     EditText input_code;
 
+    private ProgressDialog waitDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         btn_submitCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(input_code.getText().toString().isEmpty()){
+                    input_code.requestFocus();
+                    input_code.setError("Enter verification code");
+                }
+
+                showWaitDialog("Logging in..");
                 String code = input_code.getText().toString();
                 if (code == ""){
                     input_code.setError("Enter Authentication Code");
@@ -66,6 +75,23 @@ public class AuthenticationActivity extends AppCompatActivity {
                 mfac.continueTask();
             }
         });
+    }
+
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 
 

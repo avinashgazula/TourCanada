@@ -1,5 +1,7 @@
 package com.dal.tourism;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -33,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
 
     EditText name;
+    EditText username;
     EditText email;
     EditText mobile_number;
     EditText password1;
@@ -40,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
     Button btn_signUp;
     TextView txt_login;
 
+    private ProgressDialog waitDialog;
+    private AlertDialog userDialog;
 
 
     @Override
@@ -50,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         name = findViewById(R.id.input_name);
+        username = findViewById(R.id.input_username);
         email = findViewById(R.id.input_email);
         mobile_number = findViewById(R.id.input_mobile);
         password1 = findViewById(R.id.input_password);
@@ -60,22 +67,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         final CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         final SignUpHandler signUpHandler = new SignUpHandler() {
-//            @Override
-//            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-//                Log.d(TAG, "onSuccess: Sign Up successful "+signUpConfirmationState);
-//                if(!signUpConfirmationState){
-//                    Log.d(TAG, "onSuccess: verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination());
-//                    Toast.makeText(getApplicationContext(), "verification code sent to "+cognitoUserCodeDeliveryDetails.getDestination(), Toast.LENGTH_LONG).show();
-//                    Intent intent = new Intent(getApplicationContext(), VerifySignUpActivity.class);
-//                    intent.putExtra("userId", user.getUserId());
-//                    startActivity(intent);
-//                }else{
-//                    Log.d(TAG, "onSuccess: Account verified");
-//                }
-//            }
 
             @Override
             public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
+                showWaitDialog("Sending verification code to "+signUpResult.getCodeDeliveryDetails().getDestination());
                 Log.d(TAG, "onSuccess: Sign Up successful "+signUpResult.getUserConfirmed());
                 if(!signUpResult.getUserConfirmed()){
                     Log.d(TAG, "onSuccess: verification code sent to "+signUpResult.getCodeDeliveryDetails().getDestination());
@@ -91,6 +86,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception exception) {
                 Log.d(TAG, "onFailure: sign up failed"+exception);
+
+                String message = exception.getMessage();
+                int index = message.indexOf('(');
+                message = message.substring(0, index);
+
+                showDialogMessage("Error", message);
             }
         };
 
@@ -106,7 +107,24 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(name.getText().toString().isEmpty()){
+                    name.requestFocus();
+                    name.setError("Enter name");
+                    return;
+                }
+                if(email.getText().toString().isEmpty()){
+                    email.requestFocus();
+                    email.setError("Enter email");
+                    return;
+                }
+                if(mobile_number.getText().toString().isEmpty()){
+                    mobile_number.requestFocus();
+                    mobile_number.setError("Enter mobile number");
+                }
+
+
                 if (password1.getText().toString().equals(password2.getText().toString())){
+                    final String username_str = username.getText().toString();
                     final String name_str = name.getText().toString();
                     final String email_str = email.getText().toString();
                     String password_str = password1.getText().toString();
@@ -122,24 +140,55 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     if (!(email_str.isEmpty() || password_str.isEmpty())){
+
                         userAttributes.addAttribute("name", name_str);
                         userAttributes.addAttribute("phone_number", mobile_number_str);
+//                        userAttributes.addAttribute("preferred_username", username_str);
                         userAttributes.addAttribute("email", email_str);
 
                         CognitoSettings cognitoSettings = new CognitoSettings(SignUpActivity.this);
-
-                        cognitoSettings.getUserPool().signUpInBackground(email_str, password_str, userAttributes, null, signUpHandler);
+                        cognitoSettings.getUserPool().signUpInBackground(username_str, password_str, userAttributes, null, signUpHandler);
 
 
                     }
 
                 }
                 else{
-                    Toast password_mismatch = Toast.makeText(getApplicationContext(), "Password mismatch", Toast.LENGTH_LONG);
-                    password_mismatch.show();
+                    showDialogMessage("Error", "Password Mismatch");
                 }
             }
         });
+    }
+
+    private void showDialogMessage(String title, String body) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                } catch (Exception e) {
+                }
+            }
+        });
+        userDialog = builder.create();
+        userDialog.show();
+    }
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 }
 

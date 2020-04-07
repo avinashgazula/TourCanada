@@ -68,4 +68,10 @@ dependencies {
 
 //    Volley
     implementation 'com.android.volley:volley:1.1.1'
+
+
+    implementation 'org.apache.commons:commons-lang3:3.6'
+
+
+    implementation 'com.hbb20:ccp:1.7.1'
 }

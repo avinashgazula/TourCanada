@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -46,8 +48,8 @@ public class DestinationViewAdapter extends RecyclerView.Adapter<DestinationView
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.txt_destinationName.setText(mDestinations.get(position));
-        holder.txt_destinationDescription.setText(mDescriptions.get(position));
+        holder.txt_destinationName.setText(WordUtils.capitalizeFully(mDestinations.get(position)));
+        holder.txt_destinationDescription.setText(WordUtils.capitalizeFully(mDescriptions.get(position)));
         Picasso.get().load(mImages.get(position)).into(holder.image);
 
         holder.parent_layout.setOnClickListener(new View.OnClickListener() {

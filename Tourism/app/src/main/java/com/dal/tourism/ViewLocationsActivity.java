@@ -1,5 +1,6 @@
 package com.dal.tourism;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -40,6 +41,8 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     RecyclerView recyclerView;
     LocationViewAdapter adapter;
 
+    private ProgressDialog waitDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,19 +62,20 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     private void filter(String text) {
 
         ArrayList<String> fLocations = new ArrayList<>();
+        ArrayList<String> fImages = new ArrayList<>();
 
         for (int i=0; i<mLocations.size(); i++){
             if (mLocations.get(i).toLowerCase().contains(text.toLowerCase())){
                 fLocations.add(mLocations.get(i));
+                fImages.add(mImages.get(i));
             }
         }
-
-        adapter.filterList(fLocations);
+        adapter.filterList(fLocations, fImages);
     }
 
     public void getLocations(){
         try {
-            String url = "http://10.0.2.2:5000/locations/";
+            String url = "http://flaskapi-env.eba-pj7c3myx.us-east-1.elasticbeanstalk.com/locations/";
             URL locationURL = new URL(url);
             HttpURLConnection con = (HttpURLConnection) locationURL.openConnection();
             con.setRequestMethod("GET");
@@ -130,11 +134,12 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
         final CognitoSettings cognitoSettings = new CognitoSettings(ViewLocationsActivity.this);
 
         if (id == R.id.menu_item_sign_out){
-
+            showWaitDialog("Signing out..");
             GenericHandler handler = new GenericHandler() {
 
                 @Override
                 public void onSuccess() {
+//                    closeWaitDialog();
                     Log.d(TAG, "onSuccess: Logout successful"+ cognitoSettings.getUserPool().getCurrentUser().getUserId());
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -147,15 +152,7 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
             CognitoUser user = cognitoSettings.getUserPool().getCurrentUser();
             user.globalSignOutInBackground(handler);
 
-//            AuthUI.getInstance()
-//                    .signOut(this)
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            // user is now signed out
-//                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                            finish();
-//                        }
-//                    });
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -169,5 +166,21 @@ public class ViewLocationsActivity extends AppCompatActivity implements SearchVi
     public boolean onQueryTextChange(String s) {
         filter(s);
         return true;
+    }
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
     }
 }
