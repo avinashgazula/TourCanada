@@ -1,6 +1,7 @@
 __author__ = "Daksh Patel"
 
 from flask import *
+from project.model.forms import  *
 from project import app
 from project.model.LoginModel import Login
 from project.model.LocationModel import Location
@@ -56,3 +57,8 @@ def destinations():
         # print('finalTrends', finalDestinations)
         print(finalDestinations)
         return render_template('destinations.html', user=user, trends=finalDestinations, loc=loc.title())
+
+@app.route('/make_booking', methods=['GET', 'POST'])
+def make_booking():
+    form = PaymentForm()
+    return render_template('payment.html', form=form, title='Payment')

@@ -1,11 +1,5 @@
 __author__ = "Daksh Patel"
 from project.model import dynamodb, scan_table
-from wtforms import *
-from wtforms.fields.html5 import EmailField
-from flask import *
-from werkzeug.datastructures import MultiDict
-
-
 
 
 class Login:

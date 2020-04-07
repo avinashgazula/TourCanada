@@ -297,7 +297,9 @@
                     <h5 class="card-title">{{ col['name'] }}</h5>
                     {#                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the#}
                     {#                      card's content.</p>#}
-                    <a href="#" class="btn btn-primary stretched-link">Get Info</a>
+                    <form action="{{ url_for('make_booking') }}">
+                      <button class="btn btn-primary stretched-link">Make booking</button>
+                    </form>
                   </div>
                 </div>
                 {#                <div class="card border-left-primary shadow h-100 py-2 p-2">#}

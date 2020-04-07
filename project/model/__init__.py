@@ -1,9 +1,11 @@
 __author__ = "Daksh Patel"
-from boto3.dynamodb.conditions import Key
-from config import *
-import boto3
-import json
 import decimal
+import json
+
+import boto3
+from boto3.dynamodb.conditions import Key
+
+from config import *
 
 session = boto3.Session(
     aws_access_key_id=aws_access_key_id,
@@ -11,12 +13,12 @@ session = boto3.Session(
     region_name=region,
 )
 dynamodb = session.resource('dynamodb',
-                              aws_access_key_id=aws_access_key_id,
-                              aws_secret_access_key=aws_secret_access_key,
-                              region_name=region, )
+                            aws_access_key_id=aws_access_key_id,
+                            aws_secret_access_key=aws_secret_access_key,
+                            region_name=region, )
+
 
 def scan_table(table_name, filter_key=None, filter_value=None):
-
     table = dynamodb.Table(table_name)
 
     if filter_key and filter_value:
@@ -26,6 +28,7 @@ def scan_table(table_name, filter_key=None, filter_value=None):
         response = table.scan()
 
     return response
+
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -37,20 +40,7 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(o)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     table = dynamodb.Table('locations')
     table_response = table.scan()
     item_list = table_response['Items']
@@ -61,9 +51,9 @@ if __name__=='__main__':
 
     name = "Amogh"
     username = "amogh123"
-    password= "amogh123"
-    phone= "3652287399"
-    email="am210633@dal.ca"
+    password = "amogh123"
+    phone = "3652287399"
+    email = "am210633@dal.ca"
 
     # response = table.get_item(
     #     Key={

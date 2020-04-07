@@ -22,10 +22,3 @@ def ticketgen():
     #form = TicketForm()
     
     return render_template('ticket.html', title='ticket', value = dt_mon, value2 = dt_yr, value3 = dt_day, val4 = dt_date, timeval = dt_time)
-	
-	
-
-
-
-   
-   
